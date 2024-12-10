@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADHYAKSA ABHIPRAYA</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="icon" type="image" href="Desain tanpa judul (3).png">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+        }
+        #notification {
+            position: fixed;
+            background-color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+            width: 200px;
+        }
+        .tengahnotif{
+            background-color: white;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .no-scroll {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="atas">
+            <img src="img/adhyaksa abhipraya-min.png">
+        </div>
+        <div class="lagu,video">
+            <audio id="main-audio" preload="auto" loop>
+                <source src="Alphaville - Forever Young (Official Video HD).mp3" type="audio/mp3">
+            </audio>
+            
+            <div id="overlay" style="display: none;"></div>
+            <div id="notification" style="display: none;">
+                <p class="tengahnotif">PERINGATAN! Website ini mengandung kenangan ADHYAKSA ABHIPRAYA selama 3 tahun yang dapat menyebabkan terulangnya kembali memori yang tidak bisa diulangi lagi, mohon siapkan tisu sebelum Anda masuk ke website ini.</p>
+                <button id="play-button">PLAY</button>
+            </div>
+            
+            <div class="video-container">
+                <!-- Audio Control Button -->
+                <button id="audio-button" class="audio-btn">
+                    <i class="fa fa-volume-up"></i> Audio
+                </button>
+            
+                <!-- Video container dengan ukuran responsif -->
+                <iframe 
+                    id="main-video" 
+                    src="https://drive.google.com/file/d/1Yr2ZFRdO597FIALmsJbmFgb6f2DjtzDf/preview" 
+                    allow="autoplay" 
+                    frameborder="0">
+                </iframe>
+            
+                <!-- Invisible overlay for video interactions -->
+                <div id="video-overlay" class="video-overlay"></div>
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const audio = document.getElementById('main-audio');
+                    const overlay = document.getElementById('overlay');
+                    const notification = document.getElementById('notification');
+                    const playButton = document.getElementById('play-button');
+                    const videoOverlay = document.getElementById('video-overlay');
+                    const audioButton = document.getElementById('audio-button');
+            
+                    // Autoplay audio
+                    audio.play().catch(() => {
+                        console.log("Autoplay gagal, menampilkan notifikasi...");
+                        document.body.classList.add('no-scroll');
+                        overlay.style.display = 'block';
+                        notification.style.display = 'block';
+                    });
+            
+                    // Play audio on button click
+                    playButton.addEventListener('click', () => {
+                        audio.play();
+                        document.body.classList.remove('no-scroll');
+                        overlay.style.display = 'none';
+                        notification.style.display = 'none';
+                    });
+            
+                    // Pause audio when user clicks on the video overlay
+                    videoOverlay.addEventListener('click', () => {
+                        console.log("Video overlay clicked. Pausing audio...");
+                        if (!audio.paused) {
+                            audio.pause(); // Pause audio
+                            videoOverlay.style.display = 'none'; // Remove overlay to allow interaction with video
+                            console.log("Audio paused successfully.");
+                        } else {
+                            console.log("Audio was already paused.");
+                        }
+                    });
+            
+                    // Toggle audio play/pause when audio button is clicked
+                    audioButton.addEventListener('click', () => {
+                        if (!audio.paused) {
+                            audio.pause();
+                            audioButton.innerHTML = '<i class="fa fa-volume-off"></i> Audio'; // Change button text to "Audio Off"
+                        } else {
+                            audio.play();
+                            audioButton.innerHTML = '<i class="fa fa-volume-up"></i> Audio'; // Change button text to "Audio On"
+                        }
+                    });
+                });
+            </script>
+            
+            <!-- Add Font Awesome CDN for icons -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            
+            <style>
+                /* Video container with responsive design */
+                .video-container {
+                    position: relative;
+                    width: 80%; /* Video will be 80% of the page width */
+                    margin: 0 auto; /* Center the video horizontally */
+                    max-width: 100%;
+                    height: 0;
+                    padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+                    overflow: hidden;
+                }
+            
+                #main-video {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            
+                /* Button for controlling audio */
+                .audio-btn {
+                    position: absolute;
+                    top: -40px; /* Position the button above the video */
+                    left: 50%;
+                    transform: translateX(-50%); /* Center the button horizontally */
+                    z-index: 3;
+                    background-color: black;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
+            
+                /* Ensure that the video overlay covers the entire video */
+                .video-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: transparent;
+                    cursor: pointer;
+                    z-index: 2;
+                }
+            
+                /* Make the page responsive */
+                @media (max-width: 768px) {
+                    .audio-btn {
+                        top: -40px;
+                        font-size: 14px;
+                        padding: 8px 16px;
+                    }
+                }
+            </style>
+            
+        </div>
+        <div class="bawah">
+            <img src="img/Desktop - 3.png" alt="">
+        </div>
+    </div>
+</body>
+</html>

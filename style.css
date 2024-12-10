@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;;
+    background-color: #818181;
+}
+
+img{
+    width: 100%;
+}
+
+.video-container{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+.video-container iframe{
+    width: 80%;
+    position:relative;
+}
